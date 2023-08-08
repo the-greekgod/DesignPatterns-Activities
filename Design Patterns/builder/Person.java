@@ -1,4 +1,3 @@
-package net.media.training.designpattern.builder;
 
 public class Person {
     private String name;

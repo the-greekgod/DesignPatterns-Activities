@@ -1,17 +1,24 @@
-package net.media.training.designpattern.builder;
 
 import java.util.List;
 
 public class PeopleDataSource {
     public static String getPeopleXml(List<Person> persons) {
-        String finalXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-        finalXML += "<People number=\"" + persons.size() + "\">";
-        for (Person person : persons) {
-            finalXML += "<Person id=\"" + person.getId() + "\" name=\"" + person.getName() + "\">" +
-                    "<Address><City>" + person.getCity() + "</City><Country>" + person.getCountry() + "</Country></Address>" +
-                    "</Person>";
-        }
-        finalXML += "</People>";
-        return finalXML;
-    }
+    XMLBuilder xmlBuilder = new XMLBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+     xmlBuilder.startTag("People").addAttribute("number", String.valueOf(persons.size()));
+    
+     for (Person person : persons) {
+    xmlBuilder.startTag("Person").addAttribute("id", String.valueOf(person.getId()))
+    .addAttribute("name", person.getName());
+    
+     xmlBuilder.startTag("Address");
+     xmlBuilder.startTag("City").addText(person.getCity()).endTag();
+     xmlBuilder.startTag("Country").addText(person.getCountry()).endTag();
+     xmlBuilder.endTag();
+    
+     xmlBuilder.endTag();
+     }
+    
+    xmlBuilder.endTag();
+     return xmlBuilder.toString();
+     }
 }
